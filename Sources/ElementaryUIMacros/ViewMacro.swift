@@ -98,7 +98,7 @@ extension ViewMacro: ExtensionMacro {
                 decls.append(
                     DeclSyntax(
                         """
-                        \(accessControl)typealias __ViewState = Void
+                        \(access)typealias __ViewState = Void
                         """
                     )
                 )
