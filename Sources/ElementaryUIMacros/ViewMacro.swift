@@ -32,9 +32,7 @@ extension ViewMacro: ExtensionMacro {
         let needsViewEquatable = protocols.contains { $0.trimmed.description == "__ViewEquatable" }
         let members = declaration.memberBlock.members.compactMap { $0.decl.as(VariableDeclSyntax.self) }
         let access = declaration.modifiers.first {
-            $0.detail == nil && 
-            [.keyword(.public), .keyword(.package)] 
-                .contains($0.name.tokenKind)
+            $0.detail == nil && ($0.name.tokenKind == .keyword(.public) || $0.name.tokenKind == .keyword(.package))
         }
 
         // add _StatefulView conformance if any @State member is declared
