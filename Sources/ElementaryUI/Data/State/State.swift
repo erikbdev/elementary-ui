@@ -48,15 +48,40 @@ public struct State<V> {
     /// the state and triggers a view update.
     public var wrappedValue: V {
         get {
-            guard let accessor else { return initialValue }
+            guard let accessor else {
+                print(
+                    """
+                    Accessing @State value outside of being installed on a View. \
+                    This will result in a constant Binding of the initial value and will not update.
+                    """
+                )
+                return initialValue
+            }
             return accessor.value
         }
         nonmutating set {
-            guard let accessor else { fatalError("State.set called outside of content") }
+            guard let accessor else {
+                // fatalError("State.set called outside of content")
+                print(
+                    """
+                    Updating @State value outside of being installed on a View. \
+                    This will result in a constant Binding of the initial value and will not update.
+                    """
+                )
+                return
+            }
             accessor.value = newValue
         }
         nonmutating _modify {
-            guard let accessor else { fatalError("State._modify called outside of content") }
+            guard let accessor else {
+                print(
+                    """
+                    Updating @State value outside of being installed on a View. \
+                    This will result in a constant Binding of the initial value and will not update.
+                    """
+                )
+                fatalError("State._modify called outside of content")
+            }
             yield &accessor.value
         }
     }
@@ -71,7 +96,15 @@ public struct State<V> {
     /// let binding = $text  // Creates a Binding<String>
     /// ```
     public var projectedValue: Binding<V> {
-        guard let accessor else { fatalError("State.projectedValue called outside of content") }
+        guard let accessor else {
+            print(
+                """
+                Accessing @State value outside of being installed on a View. \
+                This will result in a constant Binding of the initial value and will not update.
+                """
+            )
+            return Binding(get: { initialValue }, set: { _ in })
+        }
         return Binding(accessor: accessor)
     }
 
