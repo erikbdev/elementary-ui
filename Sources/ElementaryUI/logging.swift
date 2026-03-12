@@ -6,9 +6,9 @@ func logTrace(_ message: @autoclosure () -> String) {
 }
 
 func logError(_ message: String) {
-    print("ELEMENTARY ERROR: \(message)")
+    print("[elementary] error: \(message)")
 }
 
 func logWarning(_ message: String) {
-    print("ELEMENTARY WARNING: \(message)")
+    print("[elementary] warning: \(message)")
 }
