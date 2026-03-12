@@ -49,7 +49,7 @@ public struct State<V> {
     public var wrappedValue: V {
         get {
             guard let accessor else {
-                print(
+                logWarning(
                     """
                     Accessing @State value outside of being installed on a View. \
                     This will result in a constant Binding of the initial value and will not update.
@@ -61,8 +61,7 @@ public struct State<V> {
         }
         nonmutating set {
             guard let accessor else {
-                // fatalError("State.set called outside of content")
-                print(
+                logWarning(
                     """
                     Updating @State value outside of being installed on a View. \
                     This will result in a constant Binding of the initial value and will not update.
@@ -74,13 +73,7 @@ public struct State<V> {
         }
         nonmutating _modify {
             guard let accessor else {
-                print(
-                    """
-                    Updating @State value outside of being installed on a View. \
-                    This will result in a constant Binding of the initial value and will not update.
-                    """
-                )
-                fatalError("State._modify called outside of content")
+                fatalError("Modifying @State value outside of being installed on a View.")
             }
             yield &accessor.value
         }
@@ -97,7 +90,7 @@ public struct State<V> {
     /// ```
     public var projectedValue: Binding<V> {
         guard let accessor else {
-            print(
+            logWarning(
                 """
                 Accessing @State value outside of being installed on a View. \
                 This will result in a constant Binding of the initial value and will not update.

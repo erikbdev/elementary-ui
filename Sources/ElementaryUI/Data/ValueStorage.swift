@@ -8,7 +8,7 @@ public struct _StorageKey<Container, Value>: Sendable {
         if let closure = defaultValueClosure {
             return closure()
         } else {
-            print("ERROR: Unavailable default value accessed for \(Value.self) with property ID \(propertyID)")
+            logError("Unavailable default value accessed for \(Value.self) with property ID \(propertyID)")
             fatalError("Unavailable default value accessed")
         }
     }
