@@ -105,7 +105,6 @@ where Value: __FunctionView, ChildNode: _Reconcilable, ChildNode == Value.Body._
 
         self.trackingSession.take()?.cancel()
 
-        // FIXME: cannot use metatype of type 'some View' in embedded swift (Swift 6.2.3)
         let (newContent, session) = withReactiveTrackingSession {
             value.body
         } onWillSet: { [scheduler = tx.scheduler, asFunctionNode = asFunctionNode!] in
